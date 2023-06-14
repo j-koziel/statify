@@ -16,7 +16,8 @@ app.get("/", (req: Request, res: Response, next: NextFunction): void => {
  */
 app.get("/login", (req: Request, res: Response, next: NextFunction): void => {
   const state: string = generateRandomString(16);
-  const scope = "user-read-private user-read-email";
+  const scope =
+    "user-read-private user-read-email user-top-read user-follow-read user-read-recently-played playlist-read-private playlist-read-collaborative";
   const params: string = querystring.stringify({
     response_type: "code",
     client_id: secrets.clientId,

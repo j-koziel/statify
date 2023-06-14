@@ -10,6 +10,10 @@ app.get("/", (req: Request, res: Response, next: NextFunction): void => {
   res.send("Hello World!");
 });
 
+/**
+ * Redirects user to the spotify login page to provide authorization.
+ * The authorization code is then used to get an access token and refresh token
+ */
 app.get("/login", (req: Request, res: Response, next: NextFunction): void => {
   const state: string = generateRandomString(16);
   const scope = "user-read-private user-read-email";
@@ -24,6 +28,9 @@ app.get("/login", (req: Request, res: Response, next: NextFunction): void => {
   res.redirect("https://accounts.spotify.com/authorize?" + params);
 });
 
+/**
+ * This is where the user will be redirected after they login.
+ */
 app.get(
   "/callback",
   (req: Request, res: Response, next: NextFunction): void => {

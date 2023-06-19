@@ -14,9 +14,9 @@ const callbackController = async (
     const code = req.query.code || null;
     const state = req.query.state || null;
     const storedState = req.cookies ? req.cookies[stateKey] : null;
-    // console.log(req.cookies);
+    console.log(req.cookies);
 
-    if (state === null) {
+    if (state === null || state !== storedState) {
       res.redirect(
         "/#" +
           querystring.stringify({
@@ -50,7 +50,7 @@ const callbackController = async (
         .then((response: superagent.Response) => {
           const accessToken: string = response.body.access_token;
           const refreshToken: string = response.body.refresh_token;
-          res.send({ code: accessToken });
+          res.send({ access_code: accessToken, refresh_code: refreshToken });
         })
         .catch((err) => console.log(err));
     }

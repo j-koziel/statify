@@ -54,8 +54,7 @@ const callbackController = async (
         })
         .catch((err) => console.log(err));
     }
-  } catch (err: any) {
-    res.status(400).send(err.message);
+  } catch (err: unknown) {
     next(err);
   }
 };

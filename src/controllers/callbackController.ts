@@ -3,8 +3,8 @@ import superagent from "superagent";
 import querystring from "querystring";
 
 import secrets from "../secrets";
+import stateKey from "../utils/stateKey";
 
-const stateKey = "spotify_auth_state";
 const callbackController = async (
   req: Request,
   res: Response,

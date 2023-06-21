@@ -7,7 +7,10 @@
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "build": "tsc",
-    "start:dev": "nodemon --exec ts-node ./src/server.ts"
+    "copy-files": "cp -r ./src/views ./build/src && cp -r ./src/public ./build/src",
+    "clean": "rm -rf ./build",
+    "start:dev": "nodemon --exec ts-node ./src/server.ts",
+    "start:prod": "pnpm clean && tsc && pnpm copy-files && node ./build/src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -32,7 +35,6 @@
     "@typescript-eslint/parser": "^5.60.0",
     "eslint": "^8.42.0",
     "jest": "^29.5.0",
-    "local-web-server": "^5.3.0",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1"
   }

@@ -14,7 +14,6 @@ const callbackController = async (
     const code = req.query.code || null;
     const state = req.query.state || null;
     const storedState = req.cookies ? req.cookies[stateKey] : null;
-    console.log(req.cookies);
 
     if (state === null || state !== storedState) {
       res.redirect(

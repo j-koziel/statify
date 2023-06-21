@@ -6,11 +6,11 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint . --ext .ts",
-    "build": "tsc",
+    "build": "pnpm clean && tsc && pnpm copy-files",
     "copy-files": "cp -r ./src/views ./build/src && cp -r ./src/public ./build/src",
     "clean": "rm -rf ./build",
     "start:dev": "nodemon --exec ts-node ./src/server.ts",
-    "start:prod": "pnpm clean && tsc && pnpm copy-files && node ./build/src/server.js"
+    "start:prod": "node ./build/src/server.js"
   },
   "keywords": [],
   "author": "",

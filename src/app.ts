@@ -1,23 +1,23 @@
-import express, { Request, Response, NextFunction, Express } from "express";
+import express, { Express } from "express";
 import cookieParser from "cookie-parser";
+import path from "path";
 
 import loginController from "./controllers/loginController";
 import callbackController from "./controllers/callbackController";
+import homeController from "./controllers/homeController";
 
 const app: Express = express();
 
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+
+app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
 
-app.get(
-  "/",
-  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      res.send("Hello World!");
-    } catch (err) {
-      next(err);
-    }
-  }
-);
+/**
+ * Renders the home page
+ */
+app.get("/", homeController);
 
 /**
  * Redirects user to the spotify login page to provide authorization.

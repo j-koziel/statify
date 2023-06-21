@@ -1,0 +1,34 @@
+@viewport {
+  width: device-width;
+  zoom: 1;
+}
+
+* {
+  background-color: #191414;
+  /* margin: 0;
+  padding: 0; */
+}
+
+body {
+  text-align: center;
+  font-family: sans-serif;
+  color: #191414;
+}
+
+.btn-container {
+  width: 95px;
+  margin: 330px auto;
+}
+
+a.login-btn {
+  background-color: #1db954;
+  padding: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 35px;
+}
+
+a.login-btn:visited {
+  text-decoration: none;
+  color: #191414;
+}

@@ -7,7 +7,10 @@
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "build": "tsc",
-    "start:dev": "nodemon --exec ts-node ./src/server.ts"
+    "copy-files": "cp -r ./src/views ./build/src && cp -r ./src/public ./build/src",
+    "clean": "rm -rf ./build",
+    "start:dev": "nodemon --exec ts-node ./src/server.ts",
+    "start:prod": "pnpm clean && tsc && pnpm copy-files && node ./build/src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +24,7 @@
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
+    "pug": "^3.0.2",
     "querystring": "^0.2.1",
     "superagent": "^8.0.9",
     "typescript": "^5.1.3"

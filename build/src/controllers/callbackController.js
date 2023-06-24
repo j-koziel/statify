@@ -21,7 +21,6 @@ const callbackController = (req, res, next) => __awaiter(void 0, void 0, void 0,
         const code = req.query.code || null;
         const state = req.query.state || null;
         const storedState = req.cookies ? req.cookies[stateKey_1.default] : null;
-        console.log(req.cookies);
         if (state === null || state !== storedState) {
             res.redirect("/#" +
                 querystring_1.default.stringify({

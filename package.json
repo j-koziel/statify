@@ -1,7 +1,7 @@
 {
   "name": "statify",
   "version": "0.0.1",
-  "description": "",
+  "description": "Displays an aesthetic looking profile with your Spotify stats",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -13,7 +13,7 @@
     "start:prod": "node ./build/src/server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jonathan Koziel",
   "license": "ISC",
   "dependencies": {
     "@types/cookie-parser": "^1.4.3",

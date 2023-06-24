@@ -50,11 +50,16 @@ a.login-btn {
   padding: 20px;
   text-decoration: none;
   font-weight: bold;
-  border-radius: 35px;
+  border-radius: 40px;
 }
 
 a.login-btn:hover {
-  transform: scale(1.5);
+  transform: scale(1.1);
+  transition: .5s;
+}
+
+a.login-btn:after {
+  transition: .5s;
 }
 
 a.login-btn:visited {

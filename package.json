@@ -12,7 +12,7 @@
     "start:dev": "nodemon --exec ts-node ./src/server.ts",
     "start:prod": "node ./build/src/server.js"
   },
-  "keywords": [],
+  "keywords": ["spotify", "typescript", "app", "web"],
   "author": "Jonathan Koziel",
   "license": "ISC",
   "dependencies": {

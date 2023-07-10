@@ -5,6 +5,7 @@ import path from "path";
 import loginController from "./controllers/loginController";
 import callbackController from "./controllers/callbackController";
 import homeController from "./controllers/homeController";
+import statsController from "./controllers/statsController";
 
 const app: Express = express();
 
@@ -18,6 +19,11 @@ app.use(cookieParser());
  * Renders the home page
  */
 app.get("/", homeController);
+
+/**
+ * Renders the stats page
+ */
+app.get("/stats", statsController)
 
 /**
  * Redirects user to the spotify login page to provide authorization.

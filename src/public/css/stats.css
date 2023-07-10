@@ -1,0 +1,27 @@
+@viewport {
+  width: device-width;
+  zoom: 1;
+}
+
+* {
+  background-color: #191414;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+stats-container {
+  width: 1366px;
+  height: 423px;
+}
+
+.top-container {
+  width: 664px;
+  height: 338px;
+  background-color: aliceblue;
+}

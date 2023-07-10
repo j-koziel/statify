@@ -24,7 +24,7 @@ body {
 
 .btn-container {
   width: 160px;
-  margin: 380px auto;
+  margin: 300px auto;
 }
 
 .login-text {
@@ -41,7 +41,7 @@ a.login-btn {
   flex-direction: row;
   align-items: center;
   
-  animation: showup 7s;
+  animation: showup 8s;
   font-family: "Font Awesome 6 Brands";
   font-size: 40px;
   text-align: center;

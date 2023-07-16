@@ -5,6 +5,39 @@ import querystring from "querystring";
 import secrets from "../secrets";
 import stateKey from "../utils/stateKey";
 
+const getUsersTopArtists = async (url: string, accessToken: string) => {
+  try {
+    const topArtists = await superagent.get(url)
+      .query({ time_range: "short_term", limit: "5" })
+      .set("Authorization", `Bearer ${accessToken}`)
+      .then((res: superagent.Response) => res.body.items.map((artist: any) => artist.name))
+      .catch(err => {
+        console.log(err)
+      });
+
+    return topArtists
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+const getUsersTopTracks = async (url: string, accessToken: string) => {
+  try {
+    const topTracks = await superagent.get(url)
+      .query({ time_range: "short_term", limit: "5" })
+      .set("Authorization", `Bearer ${accessToken}`)
+      .then((res: superagent.Response) => res.body.items.map((track: any) => track.name))
+      .catch(err => {
+        console.log(err)
+      });
+
+    return topTracks
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
 const callbackController = async (
   req: Request,
   res: Response,
@@ -18,9 +51,9 @@ const callbackController = async (
     if (state === null || state !== storedState) {
       res.redirect(
         "/#" +
-          querystring.stringify({
-            error: "state_mismatch",
-          })
+        querystring.stringify({
+          error: "state_mismatch",
+        })
       );
     } else {
       res.clearCookie("spotify_auth_state");
@@ -46,10 +79,10 @@ const callbackController = async (
         .send(authOptions.form)
         .set("Content-Type", "application/x-www-form-urlencoded")
         .set("Authorization", authOptions.headers.Authorization)
-        .then((response: superagent.Response) => {
+        .then(async (response: superagent.Response) => {
           const accessToken: string = response.body.access_token;
           const refreshToken: string = response.body.refresh_token;
-          res.send({ access_code: accessToken, refresh_code: refreshToken });
+          res.send({ topArtists: await getUsersTopArtists("https://api.spotify.com/v1/me/top/artists", accessToken), topTracks: await getUsersTopTracks("https://api.spotify.com/v1/me/top/tracks", accessToken) });
         })
         .catch((err) => console.log(err));
     }

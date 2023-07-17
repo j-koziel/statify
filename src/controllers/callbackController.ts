@@ -5,35 +5,42 @@ import querystring from "querystring";
 import secrets from "../secrets";
 import stateKey from "../utils/stateKey";
 
-const getUsersTopArtists = async (url: string, accessToken: string) => {
+const getUsersTopArtists = async (url: string, accessToken: string): Promise<string[] | undefined> => {
   try {
-    const topArtists = await superagent.get(url)
+    const usersTopArtists = await superagent.get(url)
       .query({ time_range: "short_term", limit: "5" })
       .set("Authorization", `Bearer ${accessToken}`)
       .then((res: superagent.Response) => res.body.items.map((artist: any) => artist.name))
-      .catch(err => {
-        console.log(err)
-      });
 
-    return topArtists
+    return usersTopArtists
   } catch (err) {
     console.log(err);
   }
 }
 
-const getUsersTopTracks = async (url: string, accessToken: string) => {
+const getUsersTopTracks = async (url: string, accessToken: string): Promise<string[] | undefined> => {
   try {
-    const topTracks = await superagent.get(url)
+    const usersTopTracks: string[] = await superagent.get(url)
       .query({ time_range: "short_term", limit: "5" })
       .set("Authorization", `Bearer ${accessToken}`)
-      .then((res: superagent.Response) => res.body.items.map((track: any) => track.name))
-      .catch(err => {
-        console.log(err)
-      });
+      .then((res: superagent.Response) => res.body.items.map((track: any) => track.name));
 
-    return topTracks
+    return usersTopTracks;
   } catch (err) {
     console.log(err);
+  }
+}
+
+const getUsersRecentlyPlayed = async (url: string, accessToken: string): Promise<string[] | undefined> => {
+  try {
+    const usersRecentlyPlayed: string[] = await superagent.get(url)
+      .query({ limit: "5" })
+      .set("Authorization", `Bearer ${accessToken}`)
+      .then((res: superagent.Response) => res.body.items.map((item: any) => item.track.name))
+
+    return usersRecentlyPlayed
+  } catch (err: unknown) {
+    console.log(err)
   }
 }
 
@@ -82,7 +89,10 @@ const callbackController = async (
         .then(async (response: superagent.Response) => {
           const accessToken: string = response.body.access_token;
           const refreshToken: string = response.body.refresh_token;
-          res.send({ topArtists: await getUsersTopArtists("https://api.spotify.com/v1/me/top/artists", accessToken), topTracks: await getUsersTopTracks("https://api.spotify.com/v1/me/top/tracks", accessToken) });
+          const data = {
+            topArtists: await getUsersTopArtists("https://api.spotify.com/v1/me/top/artists", accessToken), topTracks: await getUsersTopTracks("https://api.spotify.com/v1/me/top/tracks", accessToken), usersRecentlyPlayed: await getUsersRecentlyPlayed("https://api.spotify.com/v1/me/player/recently-played", accessToken)
+          }
+          res.send(data);
         })
         .catch((err) => console.log(err));
     }

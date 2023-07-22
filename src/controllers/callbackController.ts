@@ -4,46 +4,7 @@ import querystring from "querystring";
 
 import secrets from "../secrets";
 import stateKey from "../utils/stateKey";
-
-const getUsersTopArtists = async (url: string, accessToken: string): Promise<string[] | undefined> => {
-  try {
-    const usersTopArtists = await superagent.get(url)
-      .query({ time_range: "short_term", limit: "5" })
-      .set("Authorization", `Bearer ${accessToken}`)
-      .then((res: superagent.Response) => res.body.items.map((artist: any) => artist.name))
-
-    return usersTopArtists
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-const getUsersTopTracks = async (url: string, accessToken: string): Promise<string[] | undefined> => {
-  try {
-    const usersTopTracks: string[] = await superagent.get(url)
-      .query({ time_range: "short_term", limit: "5" })
-      .set("Authorization", `Bearer ${accessToken}`)
-      .then((res: superagent.Response) => res.body.items.map((track: any) => track.name));
-
-    return usersTopTracks;
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-const getUsersRecentlyPlayed = async (url: string, accessToken: string): Promise<string[] | undefined> => {
-  try {
-    const usersRecentlyPlayed: string[] = await superagent.get(url)
-      .query({ limit: "5" })
-      .set("Authorization", `Bearer ${accessToken}`)
-      .then((res: superagent.Response) => res.body.items.map((item: any) => item.track.name))
-
-    return usersRecentlyPlayed
-  } catch (err: unknown) {
-    console.log(err)
-  }
-}
-
+import StatsGetter from "./StatsGetter";
 
 const callbackController = async (
   req: Request,
@@ -89,8 +50,11 @@ const callbackController = async (
         .then(async (response: superagent.Response) => {
           const accessToken: string = response.body.access_token;
           const refreshToken: string = response.body.refresh_token;
+          const statsGetter: StatsGetter = new StatsGetter(accessToken)
+
+
           const data = {
-            topArtists: await getUsersTopArtists("https://api.spotify.com/v1/me/top/artists", accessToken), topTracks: await getUsersTopTracks("https://api.spotify.com/v1/me/top/tracks", accessToken), usersRecentlyPlayed: await getUsersRecentlyPlayed("https://api.spotify.com/v1/me/player/recently-played", accessToken)
+            topArtists: await statsGetter.getUsersTopArtists("https://api.spotify.com/v1/me/top/artists"), topTracks: await statsGetter.getUsersTopTracks("https://api.spotify.com/v1/me/top/tracks"), usersRecentlyPlayed: await statsGetter.getUsersRecentlyPlayed("https://api.spotify.com/v1/me/player/recently-played"), usersRecentlyPlayedMinutes: await statsGetter.getUsersRecentlyPlayedMinutes("https://api.spotify.com/v1/me/player/recently-played")
           }
           res.send(data);
         })
